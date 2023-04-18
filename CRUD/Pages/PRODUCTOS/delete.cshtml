@@ -1,0 +1,37 @@
+﻿@page
+@using System.Data.SqlClient;
+
+
+@{
+
+    try
+    {
+        string id = Request.Query["id"];
+        String connectionString = "Data Source=.\\sqlexpress;Initial Catalog=crud;Integrated Security=True";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            String sql = "DELETE FROM PRODUCTOS " +
+                         "WHERE id=@id";
+
+            using (SqlCommand cmd = new SqlCommand(sql, connection))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.ExecuteNonQuery();
+
+
+            }
+
+        }
+    }
+    catch (Exception ex)
+    {
+
+
+    }
+
+    Response.Redirect("/PRODUCTOS/Index");
+
+}
